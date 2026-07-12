@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:fragment="head(titre)" th:text="${titre}">Gestion des produits</title>
+    <link th:href="@{https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css}" rel="stylesheet">
+</head>
+<body>
+
+<!-- ===================== NAVBAR ===================== -->
+<nav th:fragment="navbar" class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+    <div class="container">
+        <a class="navbar-brand" th:href="@{/products}">📦 Gestion des produits</a>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/products}">Liste des produits</a>
+                </li>
+                <li class="nav-item" sec:authorize="hasRole('ADMIN')" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+                    <a class="nav-link" th:href="@{/products/new}">Ajouter un produit</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+                <li class="nav-item" sec:authorize="isAuthenticated()">
+                    <span class="navbar-text text-light me-3" sec:authentication="name">utilisateur</span>
+                </li>
+                <li class="nav-item" sec:authorize="isAuthenticated()">
+                    <form th:action="@{/logout}" method="post" class="d-inline">
+                        <button type="submit" class="btn btn-outline-light btn-sm">Déconnexion</button>
+                    </form>
+                </li>
+                <li class="nav-item" sec:authorize="!isAuthenticated()">
+                    <a class="btn btn-outline-light btn-sm" th:href="@{/login}">Connexion</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- ===================== FOOTER ===================== -->
+<footer th:fragment="footer" class="text-center text-muted py-4 mt-5 border-top">
+    <small>Application de gestion des produits &mdash; Spring Boot / Thymeleaf / Bootstrap</small>
+</footer>
+
+</body>
+</html>
